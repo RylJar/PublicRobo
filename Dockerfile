@@ -1,0 +1,49 @@
+# This is an auto generated Dockerfile for ros:ros1-bridge
+# generated from docker_images_ros2/ros1_bridge/create_ros_ros1_bridge_image.Dockerfile.em
+FROM ros:foxy-ros-base-focal
+
+# setup sources.list
+RUN echo "deb http://packages.ros.org/ros/ubuntu focal main" > /etc/apt/sources.list.d/ros1-latest.list
+
+# setup keys
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+
+ENV ROS1_DISTRO noetic
+ENV ROS2_DISTRO foxy
+
+# install ros packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-noetic-ros-comm=1.15.14-1* \
+    ros-noetic-roscpp-tutorials=0.10.2-1* \
+    ros-noetic-rospy-tutorials=0.10.2-1* \
+    python3-catkin-tools \
+    && rm -rf /var/lib/apt/lists/* 
+
+# install ros2 packages
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#     ros-foxy-ros1-bridge=0.9.6-1* \
+#     ros-foxy-demo-nodes-cpp=0.9.3-1* \
+#     ros-foxy-demo-nodes-py=0.9.3-1* \
+#     && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install nano -y \
+    python3-pip \
+    ros-noetic-teleop-twist-keyboard \
+    ros-noetic-tf2-geometry-msgs \
+    ros-noetic-gmapping \
+    ros-noetic-move-base \
+    ros-noetic-map-server \
+    ros-noetic-amcl \
+    iputils-ping \
+    ros-noetic-rosserial-arduino \
+    ros-noetic-rosserial
+
+RUN pip3 install RPi.GPIO
+
+# setup entrypoint
+COPY ./ros_ws /workspace
+COPY ./ros_ws/.bashrc /root
+WORKDIR "/workspace"
+# RUN . /opt/ros/noetic/setup.bash && catkin build
+RUN ["/bin/bash", "-c", "source /opt/ros/noetic/setup.bash && catkin build"] #to sie wykonuje tylko gdy builduje
+COPY ./dockerfiles/ros1/ros_entrypoint.sh /

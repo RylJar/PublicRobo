@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <node name="motors" pkg="motor_control" type="main.py" output="screen">
+    <rosparam file="$(find motor_control)/config/motors.yaml" command="load"/>
+  </node>  
+</launch>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>    
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find s_intelligence)/maps/pierwsza_mapa.yaml" />
+    <node pkg="amcl" type="amcl" name="amcl"  output="screen">
+        <rosparam file="$(find s_intelligence)/config/amcl.yaml" />
+     </node>
+</launch>

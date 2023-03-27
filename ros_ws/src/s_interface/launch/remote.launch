@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>    
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find s_interface)/vis_config/rviz_conf.rviz" />
+
+    <node type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" pkg="teleop_twist_keyboard" />
+</launch>

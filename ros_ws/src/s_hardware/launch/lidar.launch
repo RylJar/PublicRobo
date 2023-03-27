@@ -1,0 +1,8 @@
+<launch>
+  <node pkg="tf" type="static_transform_publisher" name="tf_broadcaster_base_footprint_link" args="0 0 0 0 0 0.7071067 0.7071067  base_link scaner 10" />
+
+  <node name="delta_lidar"    pkg="delta_lidar"  type="delta_lidar_node" output="screen">
+  <param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
+  <param name="frame_id"            type="string" value="scaner"/>
+  </node>
+</launch>
